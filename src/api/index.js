@@ -6,7 +6,7 @@ const instance = axios.create({
 
 export const SocialAPI = {
    async getUsers(){
- const response =  await instance.get('/users')
+ const response =  await instance.get('/users?count=100&page=1')
  return response.data
    }
 }
