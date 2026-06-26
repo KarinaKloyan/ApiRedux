@@ -1,26 +1,51 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SocialAPI } from "../../api";
-import { getUsersAC } from "../../store/usersReducer";
+import { getUsersThunkCreator, changePageAC } from "../../store/usersReducer";
 import User from "../User/User";
+import { Box, Pagination } from "@mui/material";
+import UserSkeleton from "../UserSkeleton/UserSkeleton";
 
 function Users() {
   const dispatch = useDispatch();
- const{users}= useSelector((state) => state.usersData)
-console.log(users)
+  const { users, isFetching, totalCount, currentPage } = useSelector(
+    (state) => state.usersData,
+  );
+
   useEffect(() => {
-    SocialAPI.getUsers()
-    .then((data) => {
-      dispatch(getUsersAC(data.items));
-    });
-  }, []);
-  return <div>
-    {
-        users?.map((user)=>(
-            <User key={user.id} user={user}/>
-        ))
-    }
-  </div>;
+    dispatch(getUsersThunkCreator());
+  }, [currentPage]);
+
+  const pages = Math.ceil(totalCount / 100);
+
+  const changePage = (page) => {
+    dispatch(changePageAC(page));
+  };
+  return (
+    <Box>
+      <Box>
+        <Pagination
+          count={pages}
+          onChange={(_, p) => changePage(p)}
+          variant="outlined"
+          shape="rounded"
+        />
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 2,
+          justifyContent: "center",
+        }}
+      >
+        {isFetching
+          ? Array(20)
+              .fill(null)
+              .map((_, index) => <UserSkeleton key={index} />)
+          : users?.map((user) => <User key={user.id} user={user} />)}
+      </Box>
+    </Box>
+  );
 }
 
 export default Users;
