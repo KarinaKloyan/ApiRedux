@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsersThunkCreator, changePageAC } from "../../store/usersReducer";
-import User from "../User/User";
-import { Box, Pagination } from "@mui/material";
-import UserSkeleton from "../UserSkeleton/UserSkeleton";
+import { Box } from "@mui/material";
+import UsersPagination from "../UsersPagination/UsersPagination";
+import UsersCard from "../UsersCard/UsersCard";
 
 function Users() {
   const dispatch = useDispatch();
@@ -22,28 +22,8 @@ function Users() {
   };
   return (
     <Box>
-      <Box>
-        <Pagination
-          count={pages}
-          onChange={(_, p) => changePage(p)}
-          variant="outlined"
-          shape="rounded"
-        />
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 2,
-          justifyContent: "center",
-        }}
-      >
-        {isFetching
-          ? Array(20)
-              .fill(null)
-              .map((_, index) => <UserSkeleton key={index} />)
-          : users?.map((user) => <User key={user.id} user={user} />)}
-      </Box>
+      <UsersPagination pages={pages} changePage={changePage} />
+      <UsersCard users={users} isFetching={isFetching} />
     </Box>
   );
 }
