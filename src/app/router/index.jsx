@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Home, Layout, Users } from "../../components";
+import { Home, Layout, Users, Profile } from "../../components";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +14,10 @@ export const router = createBrowserRouter([
         path: "/users",
         element: <Users />,
       },
+      {
+        path: '/users/:id',
+        element : <Profile/>
+      }
     ],
   },
 ]);
