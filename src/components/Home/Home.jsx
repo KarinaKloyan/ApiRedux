@@ -1,27 +1,17 @@
-import { useState } from "react";
-import { loginThunk } from "../../store/authReducer/authReducer";
-import { useDispatch } from "react-redux";
-
+import { useSelector } from "react-redux";
+import Login from "../Login/Login";
+import { Navigate } from "react-router-dom";
 
 function Home() {
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
+  const { userId } = useSelector((state) => state.authData);
 
-  const dispatch = useDispatch()
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(loginThunk(email, password))
-
-  };
+  if (localStorage.getItem("userId")) {
+    return <Navigate to={`profile/${localStorage.getItem("userId")}`} />;
+  }
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button>Login</button>
-      </form>
+      <Login />
     </div>
   );
 }

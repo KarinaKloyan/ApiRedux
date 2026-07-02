@@ -15,4 +15,8 @@ export const SocialAPI = {
     const response = await instance.post("/auth/login", { email, password });
     return response.data.data;
   },
+  async getProfile(userId){
+    const response = await instance.get(`/profile/${userId}`)
+    return response.data 
+  }
 };

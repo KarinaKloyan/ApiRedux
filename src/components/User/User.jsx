@@ -8,6 +8,7 @@ import {
   CardActions,
 } from "@mui/material";
 import userImg from "../../assets/user.png";
+import { NavLink } from "react-router-dom";
 
 function User({ user }) {
   return (
@@ -28,7 +29,12 @@ function User({ user }) {
         <Button size="small" color="primary" variant="contained">
           Follow
         </Button>
-        <Button size="small" color="primary" variant="outlined">
+        <Button 
+        size="small" 
+        color="primary" 
+        variant="outlined"
+        component={NavLink}
+        to={`/profile/${user.id}`}>
           View Profile
         </Button>
       </CardActions>
