@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 function Home() {
   const { userId } = useSelector((state) => state.authData);
 
-  if (localStorage.getItem("userId")) {
+  if (localStorage.getItem("userId") && localStorage.getItem("userData")) {
     return <Navigate to={`profile/${localStorage.getItem("userId")}`} />;
   }
 

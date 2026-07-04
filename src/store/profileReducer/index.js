@@ -18,15 +18,13 @@ const profileReducer = (state = initstate, action) => {
   }
 };
 
-const getProfileAC = (profile) => ({ type: GET_PROFILE, payload: profile });
+export const getProfileAC = (profile) => ({ type: GET_PROFILE, payload: profile });
 
+export const getProfileThunk = (userId) => {
+  return async (dispatch) => {
+    const data = await SocialAPI.getProfile(userId);
+    dispatch(getProfileAC(data));
+  };
+};
 
-export const getProfileThunk =(userId)=>{
-return async (dispatch) => {
-   const data = await SocialAPI.getProfile(userId)
-   dispatch(getProfileAC(data))
-}
-}
-
-
-export default profileReducer
+export default profileReducer;

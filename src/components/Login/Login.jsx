@@ -9,12 +9,16 @@ import LoginIcon from "@mui/icons-material/Login";
 function Login() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  let [error, setError] = useState("");
 
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginThunk(email, password));
+    const messages = await dispatch(loginThunk(email, password));
+    if (messages) {
+      setError(messages[0]);
+    }
   };
 
   return (
@@ -50,7 +54,6 @@ function Login() {
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
         />
-
         <TextField
           size="small"
           label="Password"
@@ -59,7 +62,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           fullWidth
         />
-
+        {error && <Typography color="error">{error}</Typography>}
         <Button
           type="submit"
           variant="contained"
